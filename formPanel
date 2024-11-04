@@ -1,0 +1,71 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class FormPanel extends JPanel {
+
+    private JLabel nameLabel;
+    private JLabel occupationLabel;
+    private JTextField nameField;
+    private JTextField occupationField;
+    private JButton submitButton;
+    private FormListener formListener;
+
+    public FormPanel() { 
+        nameLabel = new JLabel("Name:");
+        occupationLabel = new JLabel("Occupation:");
+        nameField = new JTextField(10);
+        occupationField = new JTextField(10);
+        submitButton = new JButton("Submit");
+
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = nameField.getText();
+                String occupation = occupationField.getText();
+
+                // Simple form validation
+                if (name.isEmpty() || occupation.isEmpty()) {
+                    JOptionPane.showMessageDialog(FormPanel.this, "Name and Occupation fields cannot be empty.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    if (formListener != null) {
+                        formListener.formSubmitted(new FormEvent(this, name, occupation));
+                    }
+                }
+            }
+        });
+
+        setLayout(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+
+        gc.gridx = 0;
+        gc.gridy = 0;
+        gc.anchor = GridBagConstraints.LINE_END;
+        add(nameLabel, gc);
+
+        gc.gridx = 1;
+        gc.gridy = 0;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(nameField, gc);
+
+        gc.gridx = 0;
+        gc.gridy = 1;
+        gc.anchor = GridBagConstraints.LINE_END;
+        add(occupationLabel, gc);
+
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(occupationField, gc);
+
+        gc.gridx = 1;
+        gc.gridy = 2;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        add(submitButton, gc);
+    }
+
+    public void setFormListener(FormListener listener) {
+        this.formListener = listener;
+    }
+}
