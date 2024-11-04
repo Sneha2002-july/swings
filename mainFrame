@@ -1,0 +1,63 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class MainFrame extends JFrame {
+
+    private ToolBar toolBar;
+    private FormPanel formPanel;
+    private JLabel displayLabel;
+    private JList<String> itemList;
+
+    public MainFrame() {
+        setTitle("Java Swing Application");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // Initialize components
+        toolBar = new ToolBar();
+        formPanel = new FormPanel();
+        displayLabel = new JLabel("Display Area");
+
+        // Initialize and populate JList
+        itemList = new JList<>(new String[]{"Option 1", "Option 2", "Option 3", "Option 4"});
+        itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        itemList.addListSelectionListener(e -> {
+            String selectedItem = itemList.getSelectedValue();
+            if (selectedItem != null) {
+                displayLabel.setText("Selected Item: " + selectedItem);
+            }
+        });
+
+        // Add toolbar listener
+        toolBar.setToolBarListener(new ToolBarListener() {
+            @Override
+            public void showMessage(String message) {
+                displayLabel.setText(message);
+            }
+        });
+
+        // Form submission listener
+        formPanel.setFormListener(new FormListener() {
+            @Override
+            public void formSubmitted(FormEvent event) {
+                displayLabel.setText("Form Submitted Successfully: Name: " + event.getName() + ", Occupation: " + event.getOccupation());
+            }
+        });
+
+        // Set layout
+        setLayout(new BorderLayout());
+        add(toolBar, BorderLayout.NORTH);
+        add(formPanel, BorderLayout.WEST);
+
+        // Center panel with display label and list
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(displayLabel, BorderLayout.NORTH);
+        centerPanel.add(new JScrollPane(itemList), BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER);
+
+        // Custom component
+        CustomComponent customComponent = new CustomComponent();
+        add(customComponent, BorderLayout.SOUTH);
+    }
+}
