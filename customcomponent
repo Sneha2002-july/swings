@@ -1,0 +1,19 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class CustomComponent extends JPanel {
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.BLUE);
+        g.fillRect(20, 20, 100, 100);
+        g.setColor(Color.RED);
+        g.fillOval(150, 20, 100, 100);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(300, 150);
+    }
+}
