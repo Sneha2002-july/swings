@@ -1,0 +1,44 @@
+import java.awt.FlowLayout;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+interface ToolBarListener {
+    void showMessage(String message);
+}
+
+public class ToolBar extends JPanel {
+    private JButton helloButton;
+    private JButton goodbyeButton;
+    private ToolBarListener toolBarListener;
+
+    public ToolBar() {
+        // Load icons for buttons
+       // Icon helloIcon = new ImageIcon("hello.png"); // Replace with actual path
+      //  Icon goodbyeIcon = new ImageIcon("goodbye.png"); // Replace with actual path
+
+        helloButton = new JButton("heloo");
+        helloButton.setToolTipText("Say Hello");
+        goodbyeButton = new JButton("goodbye");
+        goodbyeButton.setToolTipText("Say Goodbye");
+
+        // Add action listeners
+        helloButton.addActionListener(e -> {
+            if (toolBarListener != null) toolBarListener.showMessage("Hello Button Clicked");
+        });
+
+        goodbyeButton.addActionListener(e -> {
+            if (toolBarListener != null) toolBarListener.showMessage("Goodbye Button Clicked");
+        });
+
+        setLayout(new FlowLayout(FlowLayout.LEFT));
+        add(helloButton);
+        add(goodbyeButton);
+    }
+
+    public void setToolBarListener(ToolBarListener listener) {
+        this.toolBarListener = listener;
+    }
+}
